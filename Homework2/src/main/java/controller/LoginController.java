@@ -59,7 +59,7 @@ public class LoginController extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		titleLabel = new JLabel("title");
+		titleLabel = new JLabel("飲料訂購系統");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		titleLabel.setBounds(50, 30, 400, 30);

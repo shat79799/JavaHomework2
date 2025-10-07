@@ -33,7 +33,7 @@ public class OrderController extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JLabel titleLabel;
+	private static JLabel titleLabel = new JLabel();;
 	private JTextField nameTextField;
 	private JTextField product1TextField;
 	private JTextField product2TextField;
@@ -47,10 +47,10 @@ public class OrderController extends JFrame {
 	final String title = "萊爾學校飲料訂購系統";
 	final String nameTitle = "顧客姓名";
 	final String totalTitle = "小計";
-	final String confirmButtonTitle = "確定下單";
+	final String saveButtonTitle = "儲存訂單";
 	final String resetButtonTitle = "清除訂單";
 	final String printButtonTitle = "列印收據";
-	final String backButtonTitle = "返回";
+	final String loadButtonTitle = "讀取訂單";
 	final String payCheckBoxTitle = "使用excel pay進行支付(滿1500可享有87折優惠)";
 	final String memberCheckBoxTitle = "使用尊爵不凡綠色黨證(可享有4折優惠, 優先計算)";
 	
@@ -59,7 +59,7 @@ public class OrderController extends JFrame {
 	private int totalOolongTea = 0;
 	private int totalMilkTea = 0;
 	private MyMember m = Tool.readMyMember();
-	private MyOrder o = Tool.readMyOrder();
+	private MyOrder o = new MyOrder(0, 0, 0, 0, m.getId());
 
 	/**
 	 * Launch the application.
@@ -75,6 +75,8 @@ public class OrderController extends JFrame {
 				}
 			}
 		});
+		
+		setTimer();
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class OrderController extends JFrame {
 		contentPane.add(titlePanel);
 		titlePanel.setLayout(null);
 		
-		JLabel titleLabel = new JLabel(title);
+		titleLabel = new JLabel(title);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(0, 0, 460, 40);
 		titlePanel.add(titleLabel);
@@ -180,17 +182,17 @@ public class OrderController extends JFrame {
 		product1TextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-            	updateBlackTea();
+            	updateAmount();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-            	updateBlackTea();
+            	updateAmount();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	updateBlackTea();
+            	updateAmount();
             }
         });
 		
@@ -201,17 +203,17 @@ public class OrderController extends JFrame {
 		product2TextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-            	updateGreenTea();
+            	updateAmount();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-            	updateGreenTea();
+            	updateAmount();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	updateGreenTea();
+            	updateAmount();
             }
         });
 		
@@ -222,17 +224,17 @@ public class OrderController extends JFrame {
 		product3TextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-            	updateOolongTea();
+            	updateAmount();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-            	updateOolongTea();
+            	updateAmount();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	updateOolongTea();
+            	updateAmount();
             }
         });
 		
@@ -243,17 +245,17 @@ public class OrderController extends JFrame {
 		product4TextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-            	updateMilkTea();
+            	updateAmount();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-            	updateMilkTea();
+            	updateAmount();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	updateMilkTea();
+            	updateAmount();
             }
         });
 		
@@ -293,10 +295,10 @@ public class OrderController extends JFrame {
 		resultTextArea.setBounds(10, 470, 460, 180);
 		contentPane.add(resultTextArea);
 		
-		JButton confirmButton = new JButton(confirmButtonTitle);
-		confirmButton.setBounds(10, 430, 90, 30);
-		contentPane.add(confirmButton);
-		confirmButton.addActionListener(new ActionListener() {
+		JButton saveButton = new JButton(saveButtonTitle);
+		saveButton.setBounds(10, 430, 90, 30);
+		contentPane.add(saveButton);
+		saveButton.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		    	if (totalBlackTea >= 0 && totalGreenTea >= 0 && totalOolongTea >= 0 && totalMilkTea >= 0) {
@@ -332,22 +334,18 @@ public class OrderController extends JFrame {
 		    }
 		});
 		
-		JButton backButton = new JButton(backButtonTitle);
-		backButton.setBounds(380, 430, 90, 30);
-		contentPane.add(backButton);
+		JButton loadButton = new JButton(loadButtonTitle);
+		loadButton.setBounds(380, 430, 90, 30);
+		contentPane.add(loadButton);
 		
-		backButton.addActionListener(new ActionListener() {
+		loadButton.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        System.exit(0);
-		        MenuController mc = new MenuController();
-		        mc.setVisible(true);
+		        o = Tool.readMyOrder();
 		        
-		        dispose();
+		        updateAmount();
 		    }
 		});
-		
-		setTimer();
 	}
 	
 	private void updateBlackTea() {
@@ -434,7 +432,7 @@ public class OrderController extends JFrame {
 	}
 	
 	private void reset() {
-		o = null;
+		o = new MyOrder(0, 0, 0, 0, m.getId());;
 		
 		nameTextField.setText(null);
 		product1TextField.setText(null);
@@ -448,7 +446,7 @@ public class OrderController extends JFrame {
 		updateAmount();
 	}
 	
-	private String getLocalTimeNow() {
+	private static String getLocalTimeNow() {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		return "現在時間: " + now.format(dtf);
@@ -474,12 +472,17 @@ public class OrderController extends JFrame {
 		resultTextArea.setText(errorMessage);
 	}
 	
-	private void setTimer() {
+	private static void setTimer() {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                titleLabel.setText(getLocalTimeNow());
+                try {
+					titleLabel.setText(getLocalTimeNow());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }, 0, 1000);
 	}

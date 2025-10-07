@@ -21,7 +21,7 @@ public class MyOrderDaoImpl implements MyOrderDao {
 	@Override
 	public void insert(MyOrder order) {
 		// TODO Auto-generated method stub
-		String sql = "INSERT INTO MyOrder(blackTea, greenTea, oolongTea, milkTea, userId) VALUES(?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO myorder(blackTea, greenTea, oolongTea, milkTea, userId) VALUES(?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, order.getBlackTea());
@@ -41,7 +41,7 @@ public class MyOrderDaoImpl implements MyOrderDao {
 	public MyOrder selectOrderById(int id) {
 		// TODO Auto-generated method stub
 		MyOrder o = null;
-		String sql = "SELECT * FROM MyOrder WHERE id = ?";
+		String sql = "SELECT * FROM myorder WHERE id = ?";
 		
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -68,7 +68,7 @@ public class MyOrderDaoImpl implements MyOrderDao {
 	@Override
 	public void update(MyOrder order) {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE MyOrder SET blackTea = ?, greenTea = ?, oolongTea = ?, milkTea = ?, userId = ? WHERE id = ?";
+		String sql = "UPDATE myorder SET blackTea = ?, greenTea = ?, oolongTea = ?, milkTea = ?, userId = ? WHERE id = ?";
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, order.getBlackTea());
@@ -88,7 +88,7 @@ public class MyOrderDaoImpl implements MyOrderDao {
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
-		String sql = "DELETE FROM MyOrder WHERE id = ?";
+		String sql = "DELETE FROM myorder WHERE id = ?";
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);

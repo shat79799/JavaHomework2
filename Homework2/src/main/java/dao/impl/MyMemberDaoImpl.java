@@ -21,7 +21,7 @@ public class MyMemberDaoImpl implements MyMemberDao {
 	@Override
 	public void insert(MyMember member) {
 		// TODO Auto-generated method stub
-		String sql = "INSERT INTO MyMember(name, username, password, address, phone) VALUES(?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO mymember(name, username, password, address, phone) VALUES(?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, member.getName());
@@ -41,7 +41,7 @@ public class MyMemberDaoImpl implements MyMemberDao {
 	public boolean selectUsername(String username) {
 		// TODO Auto-generated method stub
 		boolean result = false;
-		String sql = "SELECT * FROM MyMember WHERE username = ?";
+		String sql = "SELECT * FROM mymember WHERE username = ?";
 		
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -64,7 +64,7 @@ public class MyMemberDaoImpl implements MyMemberDao {
 	public MyMember selectMemberByUsernameAndPassword(String username, String password) {
 		// TODO Auto-generated method stub
 		MyMember m = null;
-		String sql = "SELECT * FROM MyMember WHERE username = ? AND password = ?";
+		String sql = "SELECT * FROM mymember WHERE username = ? AND password = ?";
 		
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -92,7 +92,7 @@ public class MyMemberDaoImpl implements MyMemberDao {
 	@Override
 	public void update(String name, String password, int id) {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE MyMember SET name = ?, password = ? WHERE id = ?";
+		String sql = "UPDATE mymember SET name = ?, password = ? WHERE id = ?";
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, name);
@@ -109,7 +109,7 @@ public class MyMemberDaoImpl implements MyMemberDao {
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
-		String sql = "DELETE FROM MyMember WHERE id = ?";
+		String sql = "DELETE FROM mymember WHERE id = ?";
 		try {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
